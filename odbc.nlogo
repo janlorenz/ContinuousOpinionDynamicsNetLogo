@@ -38,8 +38,8 @@ to go
       ask turtles [ set opinion-list lput opinion opinion-list ] ;; update the opinion-list
       ask turtles [ if (length opinion-list = max-pxcor + 1) [ set opinion-list butfirst opinion-list ] ] ;; cut oldest values for "rolling" opinion list
       update-globals
-      if (independent_probability > 0) [ ask turtles [ entry-exit ] ]
       if (deviation_noise > 0) [ ask turtles [ opinion-noise ] ]
+      if (independent_probability > 0) [ ask turtles [ entry-exit ] ]
       if (confine) and ((deviation_noise > 0) or (initial_distribution = "Normal")) [ask turtles [set opinion confine-opinion opinion] ]
       ]
     tick
@@ -189,10 +189,10 @@ end
 ;; See Info tab for license
 @#$#@#$#@
 GRAPHICS-WINDOW
-708
-59
-1228
-347
+710
+35
+1298
+323
 -1
 -1
 3.3831
@@ -206,7 +206,7 @@ GRAPHICS-WINDOW
 0
 1
 0
-150
+170
 0
 75
 1
@@ -216,10 +216,10 @@ ticks
 30.0
 
 BUTTON
-131
-614
-192
-647
+208
+139
+269
+172
 Setup
 setup
 NIL
@@ -233,10 +233,10 @@ NIL
 1
 
 BUTTON
-255
-760
-312
-793
+620
+10
+677
+43
 Run!
 if (count turtles = 0) [setup]\ngo
 T
@@ -250,35 +250,35 @@ NIL
 1
 
 SLIDER
-12
-53
-263
-86
+25
+182
+276
+215
 N
 N
 5
 1000
-224
+292
 1
 1
 NIL
 HORIZONTAL
 
 CHOOSER
-815
-596
-1013
-641
+345
+455
+462
+500
 aggregation
 aggregation
 "mean" "median" "mode" "mid-range" "min" "max" "min-max polarizing" "min-max depolarizing"
 0
 
 PLOT
-1238
-386
-1427
-521
+716
+414
+876
+534
 Histogram eps
 eps
 NIL
@@ -293,25 +293,25 @@ PENS
 "default" 0.02 1 -16777216 true "" "histogram [eps] of turtles"
 
 SLIDER
-219
-422
-252
-545
+228
+554
+261
+672
 alpha
 alpha
 0.01
 6
-2.17
+0.04
 0.01
 1
 NIL
 VERTICAL
 
 BUTTON
-14
-550
-174
-583
+27
+679
+187
+712
 New confidence bounds
 if (count turtles = 0) [setup]\nnew_confidence_bounds
 NIL
@@ -325,20 +325,20 @@ NIL
 1
 
 TEXTBOX
-14
-276
-231
-294
+27
+405
+244
+423
 3. Distribution confidence bounds 
 12
 0.0
 1
 
 PLOT
-55
-424
-215
-544
+64
+553
+224
+673
 Beta-distribution
 eps
 NIL
@@ -353,20 +353,20 @@ PENS
 "default" 1.0 0 -5825686 true "" "if (max_eps > min_eps and heterogeneous = true) [\nplotxy min_eps 0\nforeach ( n-values 99 [ (? + 1) / 100 * (max_eps - min_eps) + min_eps] ) [plotxy ? ( ((? - min_eps) ^ (alpha - 1) * (max_eps - ?) ^ (beta - 1)) / ( max_eps - min_eps ) ^ (alpha + beta - 1) )]\nplotxy max_eps 0\n]"
 
 TEXTBOX
-16
-10
-166
-32
+29
+139
+179
+161
 A. Setup
 18
 0.0
 1
 
 SLIDER
-493
-246
-650
-279
+455
+227
+612
+260
 extremism_range
 extremism_range
 0
@@ -378,58 +378,58 @@ NIL
 HORIZONTAL
 
 CHOOSER
-708
-10
-855
-55
+711
+325
+858
+370
 visualization
 visualization
 "Heatmap timeline" "Agents' trajectories"
 0
 
 CHOOSER
-336
-248
-441
-293
+346
+228
+451
+273
 extremism_type
 extremism_type
 "none" "one side" "both sides"
 0
 
 PLOT
-1237
-11
-1444
-178
-Histogram
+881
+414
+1046
+534
+Histogram Opinion
 Current Opinion
 NIL
 0.0
 1.0
 0.0
 1.0
-true
 false
-"" ";;set-plot-y-range 0 round(count turtles / 8)\nifelse (Histogram-style = \"0-1 scale, many bins\" or Histogram-style = \"0-1 scale, 11 bins\") \n  [set-plot-x-range 0 1]\n  [let maxx max list (abs 0.5 + min [opinion] of turtles) (abs 0.5 + max [opinion] of turtles)\n   if (min [opinion] of turtles >= 0 and max [opinion] of turtles <= 1) [set maxx 0.5]\n   set-plot-x-range 0.5 - maxx 0.5 + maxx]"
+false
+"" "set-plot-y-range 0 round(count turtles / 8)\nifelse (Histogram-style = \"0-1 scale, many bins\" or Histogram-style = \"0-1 scale, 11 bins\") \n  [set-plot-x-range 0 1]\n  [let maxx max list (abs 0.5 + min [opinion] of turtles) (abs 0.5 + max [opinion] of turtles)\n   if (min [opinion] of turtles >= 0 and max [opinion] of turtles <= 1) [set maxx 0.5]\n   set-plot-x-range 0.5 - maxx 0.5 + maxx]"
 PENS
 "default" 0.0909 1 -13345367 true "" "ifelse (Histogram-style = \"0-1 scale, 11 bins\")\n  [set-histogram-num-bars 11]\n  [set-plot-pen-interval 0.04]\nhistogram [opinion] of turtles"
 
 TEXTBOX
-329
-43
-591
-73
+331
+42
+593
+72
 1. Select interacting and interaction sets
 12
 0.0
 1
 
 MONITOR
-254
-423
-308
-468
+263
+554
+317
+599
 mean
 (alpha * max_eps + beta * min_eps) / (alpha + beta)
 3
@@ -437,10 +437,10 @@ mean
 11
 
 MONITOR
-254
-471
-307
-516
+263
+601
+316
+646
 mode
 ifelse-value ((alpha > 1) and (beta > 1)) [((alpha - 1) * max_eps + (beta - 1) * min_eps ) / (alpha + beta - 2)]  [\"\"]
 3
@@ -448,10 +448,10 @@ ifelse-value ((alpha > 1) and (beta > 1)) [((alpha - 1) * max_eps + (beta - 1) *
 11
 
 PLOT
-1237
-228
-1444
-348
+1051
+413
+1293
+533
 Opinion
 NIL
 NIL
@@ -468,346 +468,336 @@ PENS
 "mean" 1.0 0 -16777216 true "" "plot mean [opinion] of turtles"
 
 SLIDER
-14
-424
-47
-544
+27
+553
+60
+673
 beta
 beta
 0.01
 6
-2.08
+0.01
 0.01
 1
 NIL
 VERTICAL
 
 TEXTBOX
-1125
-731
-1317
-758
+1323
+147
+1515
+174
 Hint: N-Slider (without running \"Setup Agents\") changes coloraxis.
 9
 0.0
 1
 
 TEXTBOX
-337
-229
-487
-247
+333
+187
+483
+205
 2. Check if extremists
 12
 0.0
 1
 
 TEXTBOX
-341
-296
-491
-320
-Every agent in extremism zone never changes opinion. 
+347
+202
+682
+226
+Every agent in extremism zone never changes opinion. \nExtremism zones: [0,extremism_range] (and [1-extremism_range,1])
 9
 0.0
 1
 
 TEXTBOX
-349
-326
-614
-350
-Extremism zones: [0,extremism_range] \nand [1-extremism_range,1] under \"two sided\"
-9
-0.0
-1
-
-TEXTBOX
-1209
-705
-1238
-723
+1407
+121
+1436
+139
 violet
 9
 115.0
 1
 
 TEXTBOX
-1211
-695
-1236
-713
+1409
+111
+1434
+129
 blue
 9
 105.0
 1
 
 TEXTBOX
-1209
-683
-1238
-701
+1407
+99
+1436
+117
 cyan
 9
 85.0
 1
 
 TEXTBOX
-1207
-673
-1236
-691
+1405
+89
+1434
+107
 green
 9
 55.0
 1
 
 TEXTBOX
-1206
-663
-1239
-681
+1404
+79
+1437
+97
 yellow
 9
 45.0
 1
 
 TEXTBOX
-1204
-653
-1240
-671
+1402
+69
+1438
+87
 orange
 9
 25.0
 1
 
 TEXTBOX
-1210
-643
-1227
-661
+1408
+59
+1425
+77
 red
 9
 15.0
 1
 
 TEXTBOX
-1112
-632
-1207
-650
+1310
+48
+1405
+66
 colored histogram
 9
 0.0
 1
 
 TEXTBOX
-1074
-645
-1197
-663
->20% number_of_agents 
+1349
+61
+1395
+79
+> 0.2 * N 
 9
 0.0
 1
 
 TEXTBOX
-1154
-705
-1201
-723
+1352
+121
+1399
+139
 0 agents
 9
 0.0
 1
 
 TEXTBOX
-1120
-668
-1200
-692
+1318
+84
+1398
+108
 Fraction of agents in patch
 9
 0.0
 1
 
 TEXTBOX
-1249
-643
-1306
-662
+1447
+59
+1504
+78
 eps >= 0.5
 9
 0.0
 1
 
 TEXTBOX
-1249
-705
-1287
-724
+1447
+121
+1485
+140
 eps=0
 9
 0.0
 1
 
 TEXTBOX
-1229
-630
-1322
-648
+1427
+46
+1520
+64
 eps in trajectories
 9
 0.0
 1
 
 TEXTBOX
-1170
-618
-1289
-648
+1368
+34
+1487
+64
 Info: Color axis
 12
 0.0
 1
 
 TEXTBOX
-1249
-673
-1297
-691
+1447
+89
+1495
+107
 eps=0.25
 9
 0.0
 1
 
 SLIDER
-459
-530
-703
-563
+343
+606
+552
+639
 independent_probability
 independent_probability
 0
 1
-0.022
+0
 0.002
 1
 NIL
 HORIZONTAL
 
 TEXTBOX
-459
-512
-704
-530
-2. Independent opinion formation
+331
+589
+576
+607
+6. Independent opinion formation
 12
 0.0
 1
 
 SLIDER
-991
-16
-1138
-49
+994
+331
+1141
+364
 iterations_per_tick
 iterations_per_tick
 1
 50
-31
+50
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-858
-16
-987
-49
+861
+331
+990
+364
 skip_ticks_draw
 skip_ticks_draw
 1
 20
-16
+2
 1
 1
 NIL
 HORIZONTAL
 
 CHOOSER
-458
-567
-713
-612
+557
+595
+651
+640
 new_opinion
 new_opinion
 "New initial" "Old initial"
 0
 
 SLIDER
-333
-380
-531
-413
+345
+309
+528
+342
 confidence_bound
 confidence_bound
 0
 1
-0.23
+1
 0.01
 1
 NIL
 HORIZONTAL
 
 SWITCH
-15
-348
-180
-381
+28
+477
+193
+510
 heterogeneous
 heterogeneous
-0
+1
 1
 -1000
 
 SLIDER
-15
-385
-181
-418
+28
+514
+194
+547
 confidence_range
 confidence_range
 0.01
 1
-0.53
+0.11
 0.01
 1
 NIL
 HORIZONTAL
 
 SLIDER
-333
-419
-529
-452
+345
+348
+528
+381
 confidence_smooth
 confidence_smooth
 0
 1
-0
+0.955
 0.005
 1
 NIL
 HORIZONTAL
 
 PLOT
-536
-380
-696
-500
+534
+313
+694
+433
 Similarity function
 opinion distance
 Prob.
@@ -823,31 +813,21 @@ PENS
 "pen-1" 1.0 0 -7500403 true "" "if (heterogeneous = true) [\n  let col colorcode min_eps 0.5\n  set-plot-pen-color approximate-rgb (item 0 col) (item 1 col) (item 2 col)\n  foreach ( n-values 100 [? / 100] ) [plotxy ? ( similarity 0 ? min_eps)]\n]"
 "pen-2" 1.0 0 -2674135 true "" "if (heterogeneous = true) [\n  let col colorcode max_eps 0.5\n  set-plot-pen-color approximate-rgb (item 0 col) (item 1 col) (item 2 col)\n  foreach ( n-values 100 [? / 100] ) [plotxy ? ( similarity 0 ? max_eps)]\n]"
 
-TEXTBOX
-1598
-533
-1965
-744
-New Module Structure:\nCheck HK original\n\n4. Confidence bounds\n6. Opinion Update\nMean or Median? (Remove median?)\nWeight on own opinion?\nSee self-support http://jasss.soc.surrey.ac.uk/11/2/4.html\nCompare with models on message discrepancy. \nEgo involvement?\nRejection?\n\nTODO\n- Add a \"default\" button to modules?
-12
-0.0
-1
-
 CHOOSER
-333
-457
-457
-502
+345
+386
+469
+431
 similarity_function
 similarity_function
 "sigmoid" "interval"
-0
+1
 
 SLIDER
-337
-150
-482
-183
+342
+143
+478
+176
 M
 M
 1
@@ -859,10 +839,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-491
-63
-587
-96
+481
+64
+577
+97
 uniform
 uniform
 1
@@ -870,41 +850,41 @@ uniform
 -1000
 
 TEXTBOX
-345
-65
-475
-110
+347
+64
+477
+109
 a. Select interacting agents (N per tick)
 12
 0.0
 1
 
 TEXTBOX
-345
-111
-495
-141
+347
+110
+497
+140
 b. Select interaction sets of size M
 12
 0.0
 1
 
 SWITCH
-493
-110
-590
-143
+481
+105
+578
+138
 mutual
 mutual
-0
+1
 1
 -1000
 
 SWITCH
-494
-148
-639
-181
+482
+145
+627
+178
 random_max_M
 random_max_M
 1
@@ -912,11 +892,11 @@ random_max_M
 -1000
 
 BUTTON
-336
-188
-434
-221
-Deffuant et al
+713
+650
+936
+683
+Quick B.1.: Deffuant et al
 set uniform false\nset mutual true\nset M 1\nset random_max_M false
 NIL
 1
@@ -929,11 +909,11 @@ NIL
 1
 
 BUTTON
-439
-188
-576
-221
-Krause Hegselmann
+714
+685
+1009
+718
+Quick B.1.: Krause and Hegselmann
 set uniform true\nset mutual true\nset M N\nset random_max_M false
 NIL
 1
@@ -946,12 +926,12 @@ NIL
 1
 
 BUTTON
-581
-189
-697
-222
-All other simple!
-set extremism_range 0\nset heterogeneous false\nset confidence_smooth 0\nset independent_probability 0\n
+1015
+615
+1236
+648
+Run: Baseline model two clusters
+set initial_distribution \"Beta\"\nset mu 0.5\nset sigma 0.28868\nset heterogeneous false\nset uniform false\nset mutual false\nset M 1\nset extremism_type \"none\"\nset extremism_range 0\nset confidence_bound 0.22\nset confidence_smooth 0\nset similarity_function \"sigmoid\"\nset aggregation \"mean\"\nset self_support_add 0\nset initial_weight 0\nset deviation_noise 0\nset independent_probability 0\nset new_opinion \"New initial\"\nset confine false\nsetup\n\n\n
 NIL
 1
 T
@@ -963,20 +943,20 @@ NIL
 1
 
 TEXTBOX
-333
-362
-523
-380
+329
+280
+519
+298
 3. Select relevant opinions 
 12
 0.0
 1
 
 SLIDER
-17
-160
-131
-193
+30
+289
+144
+322
 mu
 mu
 0.01
@@ -988,10 +968,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-16
-196
-131
-229
+29
+325
+144
+358
 sigma
 sigma
 0.01
@@ -1003,10 +983,10 @@ NIL
 HORIZONTAL
 
 PLOT
-140
-124
-300
-244
+153
+253
+313
+373
 Initial distribution
 opinion
 NIL
@@ -1021,31 +1001,31 @@ PENS
 "default" 1.0 0 -16777216 true "" "if (initial_distribution = \"Beta\") [\n  ifelse (0.0000000001 < max (map [(? ^ (alpha_op - 1) * (1 - ?) ^ (beta_op - 1))] n-values 99 [ (? + 1) / 100 ]) ) [\n    plotxy 0 0\n    foreach ( n-values 99 [ (? + 1) / 100 ] ) [plotxy ? ( (? ^ (alpha_op - 1) * (1 - ?) ^ (beta_op - 1)) )]\n    plotxy 1 0 ]\n    [clear-plot]\n  ]\nif (initial_distribution = \"Normal\") [\n  foreach ( n-values 101 [ ? / 100 ] ) [plotxy ? ( exp ( (0 - (? - mu) ^ 2) / (2 * sigma ^ 2) ) / (sigma * 2 * pi) )] ]"
 
 CHOOSER
-11
-111
-134
-156
+24
+240
+147
+285
 initial_distribution
 initial_distribution
 "Beta" "Normal"
 0
 
 CHOOSER
-1272
-179
-1414
-224
+888
+538
+1030
+583
 Histogram-style
 Histogram-style
 "0-1 scale, many bins" "0-1 scale, 11 bins" "full opinion range"
-2
+0
 
 BUTTON
-15
-233
-131
-266
-Quick uniform!
+714
+615
+924
+648
+Quick A.2.: Uniform initial
 set mu 0.5\nset sigma precision sqrt (1 / 12) 5\nset initial_distribution \"Beta\"\nupdate-plots\n
 NIL
 1
@@ -1058,45 +1038,45 @@ NIL
 1
 
 SLIDER
-442
-647
-598
-680
+346
+547
+502
+580
 deviation_noise
 deviation_noise
 0
 0.25
-0
+0.002
 0.001
 1
 NIL
 HORIZONTAL
 
 CHOOSER
-442
-682
-580
-727
+512
+537
+650
+582
 opinion_noise
 opinion_noise
 "Uniform" "Normal"
 0
 
 TEXTBOX
-442
-627
-592
-645
-7. Opinion noise
+331
+527
+481
+545
+5. Opinion noise
 12
 0.0
 1
 
 SWITCH
-1054
-480
-1164
-513
+488
+657
+598
+690
 confine
 confine
 1
@@ -1104,20 +1084,20 @@ confine
 -1000
 
 TEXTBOX
-875
-473
-1061
-524
-1. Confinement \n(relevant only under normal initial and opinion noise)
+332
+657
+480
+675
+7. Confinement to [0,1]\n
 12
 0.0
 1
 
 SLIDER
-814
-648
-975
-681
+471
+454
+632
+487
 self_support_add
 self_support_add
 0
@@ -1129,10 +1109,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-1237
-350
-1383
-383
+1053
+539
+1199
+572
 round_digits_mode
 round_digits_mode
 1
@@ -1144,10 +1124,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-814
-687
-986
-720
+471
+492
+603
+525
 initial_weight
 initial_weight
 0
@@ -1159,60 +1139,60 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-14
-36
-164
-54
+27
+165
+177
+183
 1. Number of agents
 12
 0.0
 1
 
 TEXTBOX
-13
-92
-163
-110
+26
+221
+176
+239
 2. Initial opinions
 12
 0.0
 1
 
 TEXTBOX
-184
+197
+476
 347
-334
-381
+510
 When heterogeneous is off, confidence_bound is used homogeneously.
 9
 0.0
 1
 
 TEXTBOX
-17
-295
-323
-341
-Change homogeneous confidence_bound at runtime. For heterogenous bounds set \neps ~ Beta(alpha,beta,min,max) \nwithin confidence_range around confidence bounds at setup.
+30
+424
+336
+470
+Change homogeneous confidence_bound at runtime. For heterogenous bounds set here at setup:\neps ~ Beta(alpha,beta,min,max) \nwithin confidence_range around confidence_bound.
 9
 0.0
 1
 
 TEXTBOX
-186
-390
-336
-420
+199
+519
+301
+544
 Range centered on confidence_bound
 9
 0.0
 1
 
 SWITCH
-1328
-343
-1418
-376
+1203
+538
+1293
+571
 rolling
 rolling
 0
@@ -1220,26 +1200,135 @@ rolling
 -1000
 
 TEXTBOX
-327
-11
-559
-35
+329
+10
+561
+34
 B. Runtime
 18
 0.0
 1
 
+TEXTBOX
+327
+437
+551
+467
+4. Adjust opinion
+12
+0.0
+1
+
+TEXTBOX
+347
+675
+497
+699
+relevant only under normal initial and opinion noise
+9
+0.0
+1
+
+TEXTBOX
+715
+7
+1310
+30
+C. Time evoultion of opinion landscapes / Trajectories of opinions
+18
+0.0
+1
+
+TEXTBOX
+708
+380
+1323
+407
+D. Monitors of opinion/confidence landscapes and aggregate opinions
+18
+0.0
+1
+
+TEXTBOX
+346
+295
+692
+319
+When \"heterogeneous\" confidence_bound has no runtime effect!
+9
+0.0
+1
+
+TEXTBOX
+18
+10
+298
+49
+Continuous Opinion Dynamics\nunder Bounded Confidence
+18
+0.0
+1
+
+TEXTBOX
+19
+54
+164
+72
+Version 2 by Jan Lorenz 2015
+9
+0.0
+1
+
+TEXTBOX
+18
+75
+315
+124
+Setup agents with 1-dim. continuous opinions (A.), let them interact (B.) and observe the evolution (C.) and aggregate opinion (D.). Use Default and Example buttons (E.) to quickly configure models from the literature.
+9
+0.0
+1
+
+TEXTBOX
+714
+591
+1062
+616
+E. Defaults and Examples
+18
+0.0
+1
+
+BUTTON
+1016
+653
+1355
+686
+Run: Maes homophily + Pineda noise = two clusters
+set initial_distribution \"Beta\"\nset mu 0.5\nset sigma 0.28868\nset heterogeneous false\nset uniform false\nset mutual false\nset M 1\nset extremism_type \"none\"\nset extremism_range 0\nset confidence_bound 1\nset confidence_smooth 0.93\nset similarity_function \"interval\"\nset aggregation \"mean\"\nset self_support_add 0\nset initial_weight 0\nset deviation_noise 0\nset independent_probability 0.01\nset new_opinion \"New initial\"\nset confine false\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
 @#$#@#$#@
-# Continuous Opinion Dynamics under Bounded Confidence 
+# Continuous Opinion Dynamics under Bounded Confidence v2
 
 ## WHAT IS IT?
 
 A model of **continuous opinion dynamics under bounded confidence**, which includes 
 
-  * its two main variants of communication regimes (as in [Deffuant et al 2000](http://dx.doi.org/10.1142/S0219525900000078) with &mu;=0.5 and as in  [Hegselmann and Krause 2002](http://jasss.soc.surrey.ac.uk/5/3/2.html))
+  * different initial distributions of opinions based on Beta and Normal distributions
+  * heterogeneous bounds of confidence coming from a four parameter [beta distribution](http://en.wikipedia.org/wiki/Beta_distribution), which can reproduce similar cases of heterogeneous bounds of confidence as in [Lorenz 2010](http://dx.doi.org/10.1002/cplx.20295)
+  * its two main variants of communication regimes [Deffuant et al 2000](http://dx.doi.org/10.1142/S0219525900000078), [Hegselmann and Krause 2002](http://jasss.soc.surrey.ac.uk/5/3/2.html)) and the model including both of [Urbig et al 2008](http://jasss.soc.surrey.ac.uk/11/2/4.html)
+  * independent opinion formation as a new draw from the intial distribution with a small probability as introduced in [Pineda et al 2009](http://dx.doi.org/10.1088/1742-5468/2009/08/P08001))
+  * additive noise to the current opinion
   * alternative aggregation of opinions by the median instead of the mean
-  * heterogeneous bounds of confidence coming from a four parameter [beta distribution](http://en.wikipedia.org/wiki/Beta_distribution)
-  * noise via random reset of opinions (as in [Pineda et al 2009](http://dx.doi.org/10.1088/1742-5468/2009/08/P08001))
   * one-sided and two-sided extremism (similar to [Deffuant et al 2002](http://jasss.soc.surrey.ac.uk/5/4/1.html))
 
 Visualizations:
@@ -1363,6 +1452,7 @@ Groeber, P.; Schweitzer, F. & Press, K. [How Groups Can Foster Consensus: The Ca
 
 
 ## CREDITS AND REFERENCES
+This is the extended version of "Continuous Opinion Dynamics under Bounded Confidence" from 2012
 
 Copyright 2015 Jan Lorenz. http://janlo.de, post@janlo.de
 
