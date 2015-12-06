@@ -250,15 +250,15 @@ NIL
 1
 
 SLIDER
-25
+24
 182
-276
+275
 215
 N
 N
 5
 1000
-292
+1000
 1
 1
 NIL
@@ -363,10 +363,10 @@ A. Setup
 1
 
 SLIDER
-455
-227
-612
-260
+456
+228
+613
+261
 extremism_range
 extremism_range
 0
@@ -416,10 +416,10 @@ PENS
 "default" 0.0909 1 -13345367 true "" "ifelse (Histogram-style = \"0-1 scale, 11 bins\")\n  [set-histogram-num-bars 11]\n  [set-plot-pen-interval 0.04]\nhistogram [opinion] of turtles"
 
 TEXTBOX
-331
+335
 42
-593
-72
+603
+60
 1. Select interacting and interaction sets
 12
 0.0
@@ -461,7 +461,7 @@ NIL
 1.0
 false
 true
-"" "ifelse rolling [\n  ifelse ticks > max-pxcor [set-plot-x-range (ticks - max-pxcor) ticks]\n    [set-plot-x-range 0 max-pxcor] \n  ] [\n  set-plot-x-range 0 ticks\n  ]"
+"" "ifelse rolling [\n  ifelse ticks > (max-pxcor)\n    [set-plot-x-range (ticks - max-pxcor) ticks]\n    [set-plot-x-range 0 max-pxcor] \n  ] [\n  ifelse ticks > (max-pxcor)\n    [set-plot-x-range 0 ticks]\n    [set-plot-x-range 0 max-pxcor] \n  ]"
 PENS
 "mode" 1.0 0 -4539718 true "" "plot one-of modes map [precision ? round_digits_mode] [opinion] of turtles"
 "median" 1.0 0 -2674135 true "" "plot median [opinion] of turtles"
@@ -481,16 +481,6 @@ beta
 1
 NIL
 VERTICAL
-
-TEXTBOX
-1323
-147
-1515
-174
-Hint: N-Slider (without running \"Setup Agents\") changes coloraxis.
-9
-0.0
-1
 
 TEXTBOX
 333
@@ -681,7 +671,7 @@ independent_probability
 independent_probability
 0
 1
-0
+0.008
 0.002
 1
 NIL
@@ -706,7 +696,7 @@ iterations_per_tick
 iterations_per_tick
 1
 50
-50
+5
 1
 1
 NIL
@@ -721,7 +711,7 @@ skip_ticks_draw
 skip_ticks_draw
 1
 20
-2
+1
 1
 1
 NIL
@@ -739,14 +729,14 @@ new_opinion
 
 SLIDER
 345
-309
+310
 528
-342
+343
 confidence_bound
 confidence_bound
 0
 1
-1
+0.22
 0.01
 1
 NIL
@@ -787,7 +777,7 @@ confidence_smooth
 confidence_smooth
 0
 1
-0.955
+0
 0.005
 1
 NIL
@@ -821,7 +811,7 @@ CHOOSER
 similarity_function
 similarity_function
 "sigmoid" "interval"
-1
+0
 
 SLIDER
 342
@@ -953,9 +943,9 @@ TEXTBOX
 1
 
 SLIDER
-30
+24
 289
-144
+146
 322
 mu
 mu
@@ -968,10 +958,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-29
-325
-144
-358
+24
+324
+146
+357
 sigma
 sigma
 0.01
@@ -1046,7 +1036,7 @@ deviation_noise
 deviation_noise
 0
 0.25
-0.002
+0
 0.001
 1
 NIL
@@ -1212,8 +1202,8 @@ B. Runtime
 TEXTBOX
 327
 437
-551
-467
+441
+455
 4. Adjust opinion
 12
 0.0
@@ -1250,10 +1240,10 @@ D. Monitors of opinion/confidence landscapes and aggregate opinions
 1
 
 TEXTBOX
-346
-295
-692
-319
+348
+296
+694
+314
 When \"heterogeneous\" confidence_bound has no runtime effect!
 9
 0.0
@@ -1314,6 +1304,26 @@ NIL
 NIL
 NIL
 NIL
+1
+
+TEXTBOX
+1406
+239
+1686
+539
+TODO:\n\nCheck for if updated opinions are used for later updates during one times step, especially under mutual\nGoal: Make Original HK and Deffuant possible.\nPossible Switch \"Use last ticks opinion\"\n\nImplement Carley et al selection of relevant opinion? (IP1). \n\nSliders to adjust color axis\nSwitch to make log scaling
+12
+0.0
+1
+
+TEXTBOX
+1437
+545
+1587
+575
+Something is wrong with ticks count
+12
+0.0
 1
 
 @#$#@#$#@
