@@ -36,6 +36,9 @@ to go
   draw-trajectories ;; see the procedure
 end
 
+
+;; INTERNAL PROCEDURES
+
 to new_confidence_bounds
   if (count turtles = 0) [setup]
   update-globals
@@ -47,11 +50,9 @@ to new_confidence_bounds
   update-plots
 end
 
-;; INTERNAL PROCEDURES
-
 to update-opinion
   update-globals
-  ifelse (random-float 1 < independent_probability) [
+  ifelse (random-float 1 < p) [
     if (independent_opinion_is = "New random initial") [set opinion new-opinion]
     if (independent_opinion_is = "Old initial") [set opinion initial-opinion] 
   ][
@@ -202,13 +203,13 @@ NIL
 SLIDER
 15
 276
-266
+345
 309
 N
 N
 5
 1000
-540
+500
 1
 1
 NIL
@@ -290,175 +291,175 @@ PENS
 "mean" 1.0 0 -16777216 true "" "plot mean [opinion] of turtles"
 
 TEXTBOX
-132
-596
-161
-614
+126
+615
+155
+633
 violet
 9
 115.0
 1
 
 TEXTBOX
-134
-586
-159
-604
+128
+605
+153
+623
 blue
 9
 105.0
 1
 
 TEXTBOX
-132
-574
-161
-592
+126
+593
+155
+611
 cyan
 9
 85.0
 1
 
 TEXTBOX
-130
-564
-159
-582
+124
+583
+153
+601
 green
 9
 55.0
 1
 
 TEXTBOX
-129
-554
-162
-572
+123
+573
+156
+591
 yellow
 9
 45.0
 1
 
 TEXTBOX
-127
-544
-163
-562
+121
+563
+157
+581
 orange
 9
 25.0
 1
 
 TEXTBOX
-133
-534
-150
-552
+127
+553
+144
+571
 red
 9
 15.0
 1
 
 TEXTBOX
-76
-522
-126
-540
+70
+541
+120
+559
 heatmap\n
 9
 0.0
 1
 
 TEXTBOX
-74
-536
-120
-554
+68
+555
+114
+573
 > 0.2 * N 
 9
 0.0
 1
 
 TEXTBOX
-77
-596
-124
-614
+71
+615
+118
+633
 0 agents
 9
 0.0
 1
 
 TEXTBOX
-43
-559
-123
-583
+37
+578
+117
+602
 Fraction of agents in patch
 9
 0.0
 1
 
 TEXTBOX
-172
-534
-229
+166
 553
+223
+572
 eps >= 0.5
 9
 0.0
 1
 
 TEXTBOX
-172
-596
-210
+166
 615
+204
+634
 eps=0
 9
 0.0
 1
 
 TEXTBOX
-152
-521
-245
-539
+146
+540
+239
+558
 eps in trajectories
 9
 0.0
 1
 
 TEXTBOX
-93
-509
-212
-539
+86
+524
+204
+542
 Info: Color axis
 12
 0.0
 1
 
 TEXTBOX
-172
-564
-220
-582
+166
+583
+214
+601
 eps=0.25
 9
 0.0
 1
 
 SLIDER
-18
+16
 414
-235
+346
 447
-independent_probability
-independent_probability
+p
+p
 0
 0.5
-0.01
+0.002
 0.002
 1
 NIL
@@ -469,28 +470,28 @@ TEXTBOX
 396
 315
 414
-3. Independent opinion formation
+3. Probability of independent opinion formation
 12
 0.0
 1
 
 SLIDER
-783
+777
 70
-929
+934
 103
 iterations_per_tick
 iterations_per_tick
 1
 50
-7
+10
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-930
+936
 70
 1061
 103
@@ -505,54 +506,54 @@ NIL
 HORIZONTAL
 
 CHOOSER
-18
-451
-213
-496
+16
+450
+178
+495
 Independent_opinion_is
 Independent_opinion_is
 "New random initial" "Old initial"
 0
 
 SLIDER
-14
-354
-178
-387
+16
+352
+180
+385
 mu
 mu
 0.01
 0.99
-0.09
-0.01
+0.23
+0.005
 1
 NIL
 HORIZONTAL
 
 SLIDER
-182
-354
-344
-387
+184
+352
+346
+385
 sigma
 sigma
 0
 0.499
-0
+0.15
 0.001
 1
 NIL
 HORIZONTAL
 
 CHOOSER
-549
+553
 574
-691
+695
 619
 Histogram-style
 Histogram-style
 "many bins" "11 bins"
-1
+0
 
 TEXTBOX
 18
@@ -598,8 +599,8 @@ C. Monitors of confidence bound, opinions and aggregate opinions
 TEXTBOX
 11
 10
-381
-93
+378
+122
 Continuous opinion dynamics with\ndyadic interaction,\nheterogeneous bounds of confidence,\nand independent opinion formation\n
 18
 0.0
@@ -607,9 +608,9 @@ Continuous opinion dynamics with\ndyadic interaction,\nheterogeneous bounds of c
 
 TEXTBOX
 12
-102
+103
 355
-222
+223
 Author: Jan Lorenz 2015\n\nTo do:\nA. Setup N agents (1.) with 1-dimensional continuous opinions between 0 and 1, fix the mean and the dispersion of their bounds of confidence (2.). and\nfix the probability of independent opinion formation (3.).\nB. Let them interact and observe the evolution \nC. Observe aggregate outcomes \nD. Use Example buttons for interesting configurations
 9
 0.0
@@ -618,7 +619,7 @@ Author: Jan Lorenz 2015\n\nTo do:\nA. Setup N agents (1.) with 1-dimensional con
 CHOOSER
 634
 70
-781
+776
 115
 agent_pencolors
 agent_pencolors
@@ -659,115 +660,531 @@ focus_one
 TEXTBOX
 937
 105
-1042
-123
-reduce update time
+1061
+129
+Reduce grapic updates
+9
+0.0
+1
+
+TEXTBOX
+1086
+10
+1236
+32
+D. Examples
+18
+0.0
+1
+
+BUTTON
+1084
+75
+1170
+108
+mu = 0.35
+set N 500\nset mu 0.35\nset sigma 0\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1085
+39
+1353
+71
+Homogeneous bounds of confidence\nNo independent opinion formation
+12
+0.0
+1
+
+BUTTON
+1084
+110
+1170
+143
+mu = 0.27
+set N 500\nset mu 0.27\nset sigma 0\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+1084
+145
+1170
+178
+mu = 0.23
+set N 500\nset mu 0.24\nset sigma 0\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+1084
+180
+1170
+213
+mu = 0.19
+set N 500\nset mu 0.19\nset sigma 0\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+1084
+215
+1170
+248
+mu = 0.15
+set N 500\nset mu 0.15\nset sigma 0\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1178
+84
+1386
+102
+Consensus evolves
+12
+0.0
+1
+
+TEXTBOX
+1178
+119
+1386
+137
+Critical mu Consensus/2 Clusters
+12
+0.0
+1
+
+TEXTBOX
+1178
+154
+1330
+172
+2 Clusters evolve
+12
+0.0
+1
+
+TEXTBOX
+1178
+189
+1330
+207
+Critical mu 2 Clusters/3 Clusters
+12
+0.0
+1
+
+TEXTBOX
+1178
+224
+1330
+242
+3 Clusters evolve
+12
+0.0
+1
+
+BUTTON
+1084
+293
+1170
+326
+Indep.1
+set N 500\nset mu 0.23\nset sigma 0\nset p 0.01\nset visualization \"Agents' trajectories\"\nset focus_one true\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1085
+257
+1340
+289
+Homogeneous bounds of confidence\nwith also independent opinion formation
+12
+0.0
+1
+
+BUTTON
+1084
+328
+1170
+361
+Indep.2
+set N 500\nset mu 0.23\nset sigma 0\nset p 0.05\nset visualization \"Heatmap timeline\"\nset focus_one true\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+1084
+363
+1170
+396
+Indep.3
+set N 500\nset mu 0.23\nset sigma 0\nset p 0.15\nset visualization \"Heatmap timeline\"\nset focus_one true\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+1084
+404
+1170
+437
+Indep.4
+set N 500\nset mu 0.285\nset sigma 0\nset p 0.05\nset visualization \"Heatmap timeline\"\nset focus_one false\nset agent_pencolors \"mixed\"\nset iterations_per_tick 5\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1177
+302
+1385
+320
+2 Clusters, 1% independent
+12
+0.0
+1
+
+TEXTBOX
+1178
+337
+1386
+355
+2 Clusters, 5% independent
+12
+0.0
+1
+
+TEXTBOX
+1178
+372
+1369
+402
+2 Clusters, 15% independent
+12
+0.0
+1
+
+TEXTBOX
+1178
+413
+1379
+443
+At critical mu, 5% indep. *
+12
+0.0
+1
+
+TEXTBOX
+1083
+447
+1383
+481
+Heterogeneous bounds of confidence\nNo independent opinion formation
+12
+0.0
+1
+
+BUTTON
+1084
+481
+1170
+514
+Het.1
+set N 500\nset mu 0.23\nset sigma 0.05\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"confidence bound\"\nset iterations_per_tick 10\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1178
+490
+1522
+520
+mu=0.23, sigma=0.05 -> Drifts to center or extreme *
+12
+0.0
+1
+
+BUTTON
+1084
+516
+1170
+549
+Het.2
+set N 500\nset mu 0.23\nset sigma 0.1\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"confidence bound\"\nset iterations_per_tick 10\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1178
+525
+1516
+543
+mu=0.23, sigma=0.1 -> Drifts to extreme *
+12
+0.0
+1
+
+BUTTON
+1084
+551
+1170
+584
+Het.3
+set N 500\nset mu 0.23\nset sigma 0.15\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"confidence bound\"\nset iterations_per_tick 10\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1178
+560
+1549
+590
+mu=0.23, sigma=0.15 -> Extremal drift, direction change *
+12
+0.0
+1
+
+BUTTON
+1084
+586
+1170
+619
+Het.4
+set N 500\nset mu 0.23\nset sigma 0.25\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"confidence bound\"\nset iterations_per_tick 10\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1178
+594
+1543
+613
+mu=0.23, sigma=0.25 -> No drift *
+12
+0.0
+1
+
+BUTTON
+1080
+647
+1199
+680
+Oscillations!
+set N 500\nset mu 0.23\nset sigma 0.15\nset p 0.002\nset visualization \"Heatmap timeline\"\nset agent_pencolors \"confidence bound\"\nset iterations_per_tick 10\nset skip_ticks_draw 1\nsetup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1207
+655
+1526
+685
+mu = 0.23, sigma = 0.15, 0.2% independent *
+12
+0.0
+1
+
+TEXTBOX
+1082
+627
+1369
+645
+All together can trigger regular oscillations:
+12
+0.0
+1
+
+TEXTBOX
+1208
+15
+1392
+33
+(Don't forget to click \"Run!\")
+12
+15.0
+1
+
+TEXTBOX
+1086
+693
+1488
+711
+* Note, that these trajectories are longer then the others. See iterations_per_tick.
 9
 0.0
 1
 
 @#$#@#$#@
-# Continuous Opinion Dynamics under Bounded Confidence v2
+# Continuous Opinion Dynamics under Bounded Confidence with Dyadic Interaction, Heterogeneous Bounds of Confidence and Independent Opinion Formation
 
 ## WHAT IS IT?
 
-A model of **continuous opinion dynamics under bounded confidence**, which includes 
+This is model of **continuous opinion dynamics under bounded confidence**, which focusses on 
 
-  * different initial distributions of opinions based on Beta and Normal distributions
-  * heterogeneous bounds of confidence coming from a four parameter [beta distribution](http://en.wikipedia.org/wiki/Beta_distribution), which can reproduce similar cases of heterogeneous bounds of confidence as in [Lorenz 2010](http://dx.doi.org/10.1002/cplx.20295)
-  * its two main variants of communication regimes [Deffuant et al 2000](http://dx.doi.org/10.1142/S0219525900000078), [Hegselmann and Krause 2002](http://jasss.soc.surrey.ac.uk/5/3/2.html)) and the model including both of [Urbig et al 2008](http://jasss.soc.surrey.ac.uk/11/2/4.html)
-  * independent opinion formation as a new draw from the intial distribution with a small probability as introduced in [Pineda et al 2009](http://dx.doi.org/10.1088/1742-5468/2009/08/P08001))
-  * additive noise to the current opinion
-  * alternative aggregation of opinions by the median instead of the mean
-  * one-sided and two-sided extremism (similar to [Deffuant et al 2002](http://jasss.soc.surrey.ac.uk/5/4/1.html))
+  * heterogeneous bounds of confidence coming from a two parameter [beta distribution](http://en.wikipedia.org/wiki/Beta_distribution) in a mean/dispresion paramterization
+  * a dyadic communication regime very similar to [Deffuant et al 2000](http://dx.doi.org/10.1142/S0219525900000078)
+  * independent opinion formation as a new draw from the intial distribution with a small probability as introduced in [Pineda et al 2009](http://dx.doi.org/10.1088/1742-5468/2009/08/P08001)), additionally independent opinion formation can also be set to be a switch back to the original initial opinion
 
-Visualizations:
+It has visualizations for:
 
-  * a rolling colored histogram of opinion density over time
+  * a bar plot histogram of the different static bounds of confidence (eps)
+  * a rolling colored histogram (heatmap) of opinion density over time
   * rolling trajectories of opinions over time colored by the bound of confidence 
-  * a bar plot histogram of current opinions 
-  * trajectories of the mean and the median opinion over time.  
-
-
+  * it can additionally focus on the trajectory of a randomly chosen agent
+  * a bar plot histogram of current opinions either with many or with 11 bins, the latter is analog to left-right ideological positions in survey questionaires as the European Social Survey
+  * trajectories of the mean and the median opinion over time
+ 
 ## HOW IT WORKS
 
 ### In a nutshell
 
-Agents adjust their opinion gradually towards the opinions of others when the distance in opinion is within their bound of confidence. Sometimes agents change their opinion to a new one at random. When agents hold extremal opinions they might get extremists which never adjust opinions. 
+Agents are selected randomly to adjust their opinion which are numbers between zero and one. With a certain (typically small) probability a selected agent chooses independent opinion formation which is a random draw. Otherwise agents choose interdependent opinion formation where the agent adjusts its opinion gradually towards the opinions of another randomly selected agent but only when the distance in opinion is within its bound of confidence. 
 
 ### Variables
 
-Each of N agent has its **opinion** between 0.0 and 1.0 as a dynamic variable and its **bound of confidence** (eps) as a static variable. Other static variables are global and regard the type of communication and aggregation, the probability of random reset of opinion and the type and size of extremism zones. 
+Each of N agent has its **opinion** between 0.0 and 1.0 as a dynamic variable and its **bound of confidence** (eps) as a static variable. The global static variables are 
+  * mu - the mean of the beta distribution where confidence bounds are drawn from
+  * sigma - the standard deviaition  of the beta distribution where confidence bounds are drawn from
+  * p - the probability if an agent is doing independent insteadt of interdependent opinion formation 
 
-### Setup
+### Initiailization of agent variables
 
-Each agent is assigned its initial opinion as a random number between 0.0 and 1.0 from the uniform distribution. Each agent is assigned its bound of confidence as a random number form a [beta-distribution](http://en.wikipedia.org/wiki/Beta_distribution) between min_eps and max_eps. 
-
-### Dynamics
-
-Each tick agents are asked to adjust their opinions with respect to the opinions of others and their bound of confidence (eps).
-
-**1. Communication and aggregation:**
-
-  * "DW (select one)": Each tick each agent is asked to select a random partner and changes its opinion to the average of the two opinions but only when the opinion of the partner is closer than eps to the own opinion.
-When original=On, N randomly selected agents are chosen each tick (so some agents possibly more than once) and both agents (the selected one and the randomly selected partner) both adjust opinions. (This is the version of Deffuant et al 2000, differences to original=Off are mostly minor.)
-  * "HK (select all)": Each tick each agent is asked to change its opinion to the aggregated opinion of all opinions which are closer than eps to its opinion. The aggregate opinion can be the mean or the median. When original=On is checked all agents do the change simultaneously. (This is the version of Hegselmann and Krause 2002, differences are minor.)  With original=Off an agent's change of opinion can immediately takes place and the new opinion might already effect the adjustments of the next agent even in the same tick. 
-
-**2. Probability of random opinion reset**
-
-After the update of opinion each agent is asked to select a new opinion (in the same way as its initialization) but only with probability given by the variable entry_exit_rate. 
-
-**3. Heterogeneous bounds of confidence**
-
-Notice that under heterogeneous bounds of confidence it might be that one agent has confidence in another but not vice versa! 
-
-**4. Extremists**
-
-Extremism zones are intervals in the opinion space from 0.0 to 1.0 which are determined by the parameter extremism_range. The extremism intervals are from 0.0 to extremism_range for the selection "one side" and additionally from 1.0-extremism_range to 1.0 for the selection "two side". Agents which are located in the extermism zone never change their opinion. But still other non-extremist agents might adjust their opinion with respect to the opinions of extremists. Extremists still undergo change of opinion due to random reset of opinions. 
+Each agent is assigned its initial opinion as a random number between 0.0 and 1.0 from the uniform distribution. Each agent is assigned its bound of confidence as a random number form a [beta-distribution](http://en.wikipedia.org/wiki/Beta_distribution) with mean mu and standard deviation sigma. 
 
 ## HOW TO USE IT
 
-Click "setup" to inititialize agents with opinions random and uniformly distributed between 0.0 and 1.0. Agents are located at the left border of the world with their opinions spreading over the vertical axis. Further, on confidence bounds are initialized for each agent as random draws from a beta distribution under the current choice of the four parameters. 
+Click "Setup" to inititialize agents with opinions random and uniformly distributed between 0.0 and 1.0. Agents are located at the left border of the world with their opinions spreading over the vertical axis. Further, on confidence bounds (eps) are initialized for each agent as random draws from a beta distribution under the current choice of mu and sigma. 
 
-Click "go" to start the simulation. Agents move with ticks from left to right, displaying their opinion with the position on the vertical axis. This goes over into a "rolling" graphic in the world, where the last 120 ticks are shown (respectively the last max-pxcor ticks). Visualization can be chosen as trajectories of agents or as color-coded histograms. In colored histograms each patch's color is associated to the number of agents at this patch. 
+Click "Go" to start the simulation. With each tick, agents move from left to right displaying their opinion with the position on the vertical axis. This goes over into a "rolling" graphic in the world, where the last ticks are shown. 
 
-A change of the variables communication regime, original, aggregation_in_HK, entry_exit_rate, extremism_range, and extremism_type is immediately effective in a running simulation. 
+Visualization can be chosen as trajectories of agents or as heatmaps of the density (color-coded histograms). In heatmaps each patch's color is associated to the number of agents at this patch. Further switches, choosers, and sliders can be used to change the visualization. 
 
-A change of the variable number_of_agents immediately changes the color axis in the "Colored histogram over time"-visualization and the vertical axis in the histogram of current opinions.
-
-A change of the four parameters of the distribution of eps (min_eps, max_esp, alpha, beta) immediately effect only the plot of the pdf of the distribution, but not the eps in the running simulation (click "new_confidence_bounds" for this).  
-
-Click "new_confidence_bounds" to make new random draws for eps for each agent. Draws come from the beta distribution with the current parameters. (The same procedure is called when clicking "setup".)
+A change of N, mu and sigma is only effective at setup. A change of p is effective at runtime. 
 
 
 ## THINGS TO NOTICE
 
 Agents move towards the right-hand side of the world with one step each tick. This goes over into a "rolling" plot. 
 
-Notice how agents form **clusters** in the opinion space. See how these clusters **evolve**, **drift** and **unite** in the "**Colored histograms over time**"-visualization. 
+When setup see how the distribution of the bounds of confidence (eps) looks like under different mu and sigma in the **bar plot histogram of eps**. See what happens when sigma is small and large. 
+
+Notice how agents form **clusters** in the opinion space. See how under what conditions how many clusters **evolve**, when they **drift**, and **unite** in the "**Heatmap**"-visualization. 
 
 Look at the role of agents with different bounds of confidence in the "**Agents' trajectories**"-visualization. 
 
+In either visualization, focus additionally on the **trajectory of an individual agent** and see how it jumps between clusters when the p is not zero. 
+
+Increase iterations_per_tick to see what happens in the really long run. q
+
 Look at the current distribution of opinions in the **bar plot histogram** on the right hand side and compare it to the colored histogram (the most recent colored vertical line in the world at the right hand side).
 
-Look how the **mean and the median opinion** evolve over time. The mean represents the center of mass of the distribution (cf. the current histogram). The median represents an unbeatable opinion under pairwise majority decisions. (This holds when agents have single-peaked preferences with peaks at their opinion, cf. [median voter theorem](http://en.wikipedia.org/wiki/Median_voter_theorem)).
-
-Look how the histogram of bounds of confidence matches the probability density function of the beta distribution when you click "new_confidence_bounds". 
+Look how the **mean and the median opinion** evolve over time. The mean represents the center of mass of the distribution. The median represents an unbeatable opinion under pairwise majority decisions. (This holds when agents have single-peaked preferences with peaks at their opinion, cf. [median voter theorem](http://en.wikipedia.org/wiki/Median_voter_theorem)).
 
 
 ## THINGS TO TRY
 
-Try the **original models of homogeneous DW and HK communication without noise**: Set entry_exit_rate to zero, min_eps and max_eps to the same value, and extremism_range to zero. See how a stable configuration of clusters evolves. Check how the **number**, **sizes** and **locations** of clusters depend on the bound of confidence. Try to determine critical bounds of confidence where the evolving cluster pattern changes significantly. Use the setup button to rerun with a new initial configuration. 
-
-Try to understand the impact of **noise** (entry_exit_rate) under homogeneous bounds of confidence: Set up a homogeneous eps (min_eps=max_eps), run the simulation and play with the entry_exit_rate slider (reasonable values are low, e.g. between 0.01 and 0.1). There are bounds of confidence, where the cluster pattern oscillates between two numbers of clusters. Under different entry_exit_rates the two patterns become differently likely. 
-
-Play with **hetergeneous bounds of confidence** (min_eps<max_eps) without noise (entry_exit_rate=0). Try different shapes of the distribution by manipulation of alpha and beta. Try to understand the **drifting** phenomena under the two communication regimes. Try to reproduce the phenomenon of "**more chance for consensus under lower but heterogeneous bounds of confidence**" (see [Lorenz 2010](http://dx.doi.org/10.1002/cplx.20295)): Set N=500, DW communication, original=off, entry_exit_rate=extremism_range=0, alpha=beta=0.1, min_eps=0.24, max_eps=0.24. See by several runs (repeatedly click "setup") that consensus is not (or very rarely) possible. Now set min_eps=0.1 and see that the bimodal distribution (half of the population with eps=0.1 and half with eps=0.24) makes it possible that almost all agents unite in a single cluster. Beware, this does not happen all the time and might takes a lot of time (rerun and wait!). The phenomenon is better understood in the "Agents' trajectories"-visualization. 
-
-Play with **extremism** under homogeneous bounds of confidence and no noise (entry_exit_rate=0). Observe the pattern of convergence under different bounds of confidence. Under what bounds of confidence does global extremism (at one or both extremes) occur? Use small extremism ranges (between 0.01 and 0.05) and play with one or two-sided extremism. Compare to [Deffuant et al 2002](http://jasss.soc.surrey.ac.uk/5/4/1.html).
-
-Try to find differences between the original versions of the DW and HK models and the one implemented when original=off. 
-
-Try to calibrate parameters which represent an evolution of the political landscape of opinions which looks to you as a realistic evolution of a party system (regarding location and size of opinion clusters in the left--right continuum). 
+Try the example buttons to explore characteristic behavior and try to systematically understand the role of average open-mindedness (mu), dispresion of open- and closed-mindedness, and the degree of independent opinion formation (p) the 
 
 
 ## RELATED MODELS AND PAPERS
