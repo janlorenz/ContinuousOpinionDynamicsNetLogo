@@ -79,7 +79,7 @@ to draw-trajectories
       [ ask turtles with [item t-counter opinion-list = (item t-counter opinion-list)] [ pen-down ] ]
     ask turtles [setxy t-counter ( (item t-counter opinion-list) * max-pycor)]
     ifelse (visualization = "Heatmap timeline") 
-      [ ask patches with [pxcor = t-counter ] [ set pcolor colorcode ((count turtles-here with [item t-counter opinion-list =  (item t-counter opinion-list)] ) / (count turtles)) 0.2 ] ] ;; see reporter colorcode
+      [ ask patches with [pxcor = t-counter ] [ set pcolor colorcode ((count turtles-here with [item t-counter opinion-list =  (item t-counter opinion-list)] ) / (count turtles)) color_axis_max ] ] ;; see reporter colorcode
       [ ask patches [ set pcolor white ] ]
     set t-counter t-counter + 1 
   ]
@@ -116,6 +116,11 @@ to update-globals
     set beta max list 0.01 (1 - mu) * nu
     set sigma precision (min list sigma (sqrt (mu * (1 - mu) * 0.95))) 5
   ]
+end
+
+to change_focus
+  ask turtles [set focus? false]
+  ask one-of turtles [set focus? true]
 end
 
 ;; REPORTERS
@@ -246,8 +251,8 @@ TEXTBOX
 CHOOSER
 367
 70
-517
-115
+514
+116
 visualization
 visualization
 "Heatmap timeline" "Agents' trajectories"
@@ -291,160 +296,160 @@ PENS
 "mean" 1.0 0 -16777216 true "" "plot mean [opinion] of turtles"
 
 TEXTBOX
-126
-615
-155
-633
+177
+601
+206
+619
 violet
 9
 115.0
 1
 
 TEXTBOX
-128
-605
-153
-623
+179
+591
+204
+609
 blue
 9
 105.0
 1
 
 TEXTBOX
-126
-593
-155
-611
+177
+579
+206
+597
 cyan
 9
 85.0
 1
 
 TEXTBOX
-124
-583
-153
-601
+175
+569
+204
+587
 green
 9
 55.0
 1
 
 TEXTBOX
-123
-573
-156
-591
+174
+559
+207
+577
 yellow
 9
 45.0
 1
 
 TEXTBOX
-121
-563
-157
-581
+172
+549
+208
+567
 orange
 9
 25.0
 1
 
 TEXTBOX
-127
-553
-144
-571
+178
+539
+195
+557
 red
 9
 15.0
 1
 
 TEXTBOX
-70
-541
 120
-559
+527
+170
+545
 heatmap\n
 9
 0.0
 1
 
 TEXTBOX
-68
-555
-114
-573
-> 0.2 * N 
+63
+541
+166
+588
+> color_axis_max * N 
 9
 0.0
 1
 
 TEXTBOX
-71
-615
-118
-633
+122
+601
+169
+619
 0 agents
 9
 0.0
 1
 
 TEXTBOX
-37
-578
-117
-602
+88
+564
+168
+588
 Fraction of agents in patch
 9
 0.0
 1
 
 TEXTBOX
-166
-553
-223
-572
+217
+539
+274
+558
 eps >= 0.5
 9
 0.0
 1
 
 TEXTBOX
-166
-615
-204
-634
+217
+601
+255
+620
 eps=0
 9
 0.0
 1
 
 TEXTBOX
-146
-540
-239
-558
+197
+526
+290
+544
 eps in trajectories
 9
 0.0
 1
 
 TEXTBOX
-86
-524
-204
-542
+137
+510
+255
+528
 Info: Color axis
 12
 0.0
 1
 
 TEXTBOX
-166
-583
-214
-601
+217
+569
+265
+587
 eps=0.25
 9
 0.0
@@ -513,7 +518,7 @@ CHOOSER
 Independent_opinion_is
 Independent_opinion_is
 "New random initial" "Old initial"
-0
+1
 
 SLIDER
 16
@@ -572,7 +577,7 @@ SWITCH
 606
 rolling
 rolling
-1
+0
 1
 -1000
 
@@ -609,18 +614,18 @@ Continuous opinion dynamics with\ndyadic interaction,\nheterogeneous bounds of c
 TEXTBOX
 12
 103
-355
-223
-Author: Jan Lorenz 2015\n\nTo do:\nA. Setup N agents (1.) with 1-dimensional continuous opinions between 0 and 1, fix the mean and the dispersion of their bounds of confidence (2.). and\nfix the probability of independent opinion formation (3.).\nB. Let them interact and observe the evolution \nC. Observe aggregate outcomes \nD. Use Example buttons for interesting configurations
+356
+224
+Author: Jan Lorenz 2015\n\nTo do:\nA. Setup N agents (1.) with 1-dimensional continuous opinions between 0 and 1, fix the mean and the dispersion of their bounds of confidence (2.). and fix the probability of independent opinion formation (3.).\nB. Let them interact and observe the evolution \nC. Observe aggregate outcomes \nD. Use Example buttons for interesting configurations
 9
 0.0
 1
 
 CHOOSER
-634
-70
-776
-115
+517
+35
+659
+80
 agent_pencolors
 agent_pencolors
 "confidence bound" "mixed"
@@ -647,13 +652,13 @@ Show longer trajectory
 1
 
 SWITCH
-520
-70
-632
-103
+661
+35
+773
+68
 focus_one
 focus_one
-1
+0
 1
 -1000
 
@@ -727,7 +732,7 @@ BUTTON
 1170
 178
 mu = 0.23
-set N 500\nset mu 0.24\nset sigma 0\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
+set N 500\nset mu 0.23\nset sigma 0\nset p 0\nset visualization \"Agents' trajectories\"\nset agent_pencolors \"mixed\"\nset iterations_per_tick 1\nset skip_ticks_draw 1\nsetup
 NIL
 1
 T
@@ -1115,6 +1120,38 @@ TEXTBOX
 0.0
 1
 
+SLIDER
+517
+83
+661
+117
+color_axis_max
+color_axis_max
+0.01
+0.4
+0.08
+0.01
+1
+NIL
+HORIZONTAL
+
+BUTTON
+663
+70
+773
+104
+Change focus
+change_focus
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
 @#$#@#$#@
 # Continuous Opinion Dynamics under Bounded Confidence with Dyadic Interaction, Heterogeneous Bounds of Confidence and Independent Opinion Formation
 
@@ -1148,7 +1185,7 @@ Each of N agent has its **opinion** between 0.0 and 1.0 as a dynamic variable an
   * sigma - the standard deviaition  of the beta distribution where confidence bounds are drawn from
   * p - the probability if an agent is doing independent insteadt of interdependent opinion formation 
 
-### Initiailization of agent variables
+### Initialization of agent variables
 
 Each agent is assigned its initial opinion as a random number between 0.0 and 1.0 from the uniform distribution. Each agent is assigned its bound of confidence as a random number form a [beta-distribution](http://en.wikipedia.org/wiki/Beta_distribution) with mean mu and standard deviation sigma. 
 
