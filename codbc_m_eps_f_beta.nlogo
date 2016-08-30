@@ -26,7 +26,8 @@ to go
   if (count turtles = 0) [setup]
   repeat skip_ticks_draw [
     repeat iterations_per_tick [
-      if (communication_regime = "Deffuant et al") [repeat (count turtles) / 2 [ask one-of turtles [ update-opinion ]]] ;; repeat N/2 times because for each interaction there are two updates
+      ;; if (communication_regime = "Deffuant et al") [repeat (count turtles) / 2 [ask one-of turtles [ update-opinion ]]] ;; repeat N/2 times because for each interaction there are two updates
+      if (communication_regime = "Deffuant et al") [repeat (count turtles) [ask one-of turtles [ update-opinion ]]] ;; repeat N/2 times because for each interaction there are two updates
       if (communication_regime = "Hegselmann-Krause") [ask turtles [ update-opinion ]]
       ]
     ask turtles [ set opinion-list lput opinion opinion-list ] ;; update the opinion-list
@@ -50,7 +51,7 @@ to update-opinion
       let partner one-of turtles
       if (random-float 1 < probability_acceptance abs ([opinion] of partner - opinion) eps tune_f beta) [
         set opinion (opinion + [opinion] of partner) / 2
-        ask partner [set opinion (opinion + [opinion] of myself) / 2]
+        ;;ask partner [set opinion (opinion + [opinion] of myself) / 2]
       ]]
     if (communication_regime = "Hegselmann-Krause") [
         set accept? true
@@ -438,10 +439,10 @@ eps=0.25
 1
 
 SLIDER
-19
-555
-317
-588
+18
+568
+316
+601
 m
 m
 0
@@ -471,7 +472,7 @@ iterations_per_tick
 iterations_per_tick
 1
 50
-5
+1
 1
 1
 NIL
@@ -516,7 +517,7 @@ tune_f
 tune_f
 0
 1
-0.238
+0.998
 0.002
 1
 NIL
@@ -899,7 +900,7 @@ color_axis_max
 color_axis_max
 0.01
 0.4
-0.1
+0.11
 0.01
 1
 NIL
